@@ -19,19 +19,30 @@
     </header>
     <main>
         <form action="">
-            <label for="tarefa">Descirção</label>
-            <input type="text" id="desc" name="Descirção">
-            <label for=""></label>
-            <input type="radio" name="cor" id="azul">
-            <input type="radio" name="cor" id="verde">
-            <input type="radio" name="cor" id="rosa">
-            <input type="radio" name="cor" id="roxo">
-            <input type="radio" name="cor" id="amarelo">
-            <input type="radio" name="cor" id="laranja">
-            <input type="radio" name="cor" id="branco">
-            <input type="button" value="Adicionar">
+            <label for='desc'>Descrição</label>
+            <input type='text' id='desc' name="Descrição">
+            <label for='color'>Cor</label>
+            <input type='radio' name='cor' id='azul'>
+            <input type='radio' name='cor' id='verde'>
+            <input type='radio' name='cor' id='rosa'>
+            <input type='radio' name='cor' id='roxo'>
+            <input type='radio' name='cor' id='amarelo'>
+            <input type='radio' name='cor' id='laranja'>
+            <input type='radio' name='cor' id='branco'>
+            <input type='button' value='Adicionar' id='btn-add'>
         </form>
+        <section>
+            <h3>TODO</h3>
+            <ul id="todo-tasks"></ul>
+        </section>
+        <section>
+            <h3>DONE</h3>
+            <ul id="done-tasks"></ul>
+        </section>
+        <p id="status">0 of 0 completed</p>
     </main>
+    <script src="public/js/script.js"></script>
 </body>
 
 </html>
+
