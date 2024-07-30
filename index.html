@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="public\assets" type="image/x-icon">
+    <link rel="stylesheet" href="public\css\style.css">
+    <title>TodoApp</title>
+</head>
+
+<body>
+    <header id="navBar" style="align-content:normal ;">
+        <img src="public/assets/well-organized-logo.png" alt="">
+        <a href="#principal">A fazer</a>
+        <p> | </p>
+        <a href="#Arquivadas">Arquivadas</a>
+    </header>
+
+    <main>
+
+        <div id="divAddBtn" hidden>
+            <button onclick="abrirMenu(this)" class="botaoAdicionarTarefa">Adicionar Tarefa</button>
+            <ul id="tarefas"></ul>
+        </div>
+
+         <form action="">
+
+            <label for="inputDescrição">Descrição</label>
+            <input type="text" id="inputDescrição">
+
+            <input type="radio" name="cor" class="radioCor" id="radioAzul" value="azul">
+            <input type="radio" name="cor" class="radioCor" id="radioVerde" value="verde">
+            <input type="radio" name="cor" class="radioCor" id="radioRosa" value="rosa">
+            <input type="radio" name="cor" class="radioCor" id="radioRoxo" value="roxo">
+            <input type="radio" name="cor" class="radioCor" id="radioAmarelo" value="amarelo">
+            <input type="radio" name="cor" class="radioCor" id="radioLaranja" value="laranja">
+            <input type="radio" name="cor" class="radioCor" id="radioBranco" value="branco">
+
+            <button type="submit">Adicionar</button>
+         </form>
+
+        <div id="tasks">
+            <ul id="tasksList"></ul>
+        </div>
+    </main>
+    <script src="./public/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
