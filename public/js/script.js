@@ -1,97 +1,102 @@
-document.addEventListener('DOMContentLoaded', loadTasksFromLocalStorage);
-let btnAdd = document.getElementById('btn-add');
-btnAdd.addEventListener('click', addTask);
+let ulTarefas = document.getElementById('tarefas');
+let cor;
+const form = document.getElementById('menu')
 
-function loadTasksFromLocalStorage() {
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    // adicionar nas listas
+//eventos
+
+form.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+
+    const formData = new FormData();
+    const data = {}
+
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+
+    console.log(data);
+});
+
+function getInput() {
+
+}
+/*function abrirMenu(botao) {
+    let menu = document.getElementById(".menu");
+    botao.parentNode.replaceChild(menu, botao);
+}*/
+
+function selecionarCor(btn) {
+    let css = window.getComputedStyle(btn)
+    let corFundo = css.backgroundColor;
+    cor = corFundo;
 }
 
-function deleteItem(evt) {
-    evt.target.parentNode.remove();
-    updateStatus(getTodoTasks(), getDoneTasks());
+function adicionarTarefa() {
+    botaoAdicionar.addEventListener('click', () => {
+        let cor;
+        let descricao;
+
+        adicionarTarefa(criarItemLista(descricao, cor));
+        inputReset(inputDescricao);
+    });
 }
 
-function updateStatus(todoList, doneList) {
-    let totalDone = doneList.childNodes.length;    
-    let totalTasks = todoList.childNodes.length + totalDone;
-    let status = document.getElementById('status');
-    status.textContent = `${totalDone} of ${totalTasks} completed`;
-}
+function criarItemLista(descricao, cor) {
+    let li = document.createElement('li')
+    let body = document.createElement('div');
+    let header = document.createElement('div');
 
-function doneTask(evt) {
-    let item = evt.target.parentNode;
-    getDoneTasks().appendChild(item);
-    // mostra botão de exclusão
-    item.lastChild.classList.remove('hide-element');
-    // esconde checkbox
-    item.firstChild.classList.add('hide-element');
-    // formata descrição da tarefa
-    item.classList.add('task-done');
+    let desc = document.createTextNode(text);
+    this.desc.textContent = descricao;
 
-    updateStatus(getTodoTasks(), getDoneTasks());
-}
+    let text = document.createElement('p');
+    text.textContent = "Não finalizado";
 
-function getTodoTasks() {
-    return document.getElementById('todo-tasks');
-}
-
-function getDoneTasks() {
-    return document.getElementById('done-tasks');
-}
-
-function createListItem(text) {
-    // criar o item da lista
-    let li = document.createElement('li');
-    let textItem = document.createTextNode(text);    
-    
-    // criação do checkbox
     let check = document.createElement('input');
     check.setAttribute('type', 'checkbox');
-    check.addEventListener('click', doneTask);
+    check.addEventListener('click', concluirTarefa());
 
-    // criação do botão de exclusão
-    let btn = document.createElement('button');
-    let textBtn = document.createTextNode('del');
-    btn.addEventListener('click', deleteItem);
-    btn.classList.add('hide-element');
+    header.appendChild(check, text)
+    body.appendChild(descricao)
+    li.appendChild(header, body)
 
-    btn.append(textBtn);
-    li.append(check, textItem, btn);
+    return li;
+}
 
-    return li;    
+function adicionarTarefa(li) {
+    let tarefas = ulTarefas.getTarefas()
+
+    if (text === '') {
+        alert('Forneça uma descrição');
+        return;
+    }
+
+    if (itemExists(tarefas, descricao)) {
+        alert('Item já existe');
+        return;
+    }
+
+    ul_tarefas.appendChild(criarItemLista(li))
+}
+
+function criarItemLista(descricao, cor) {
+
 }
 
 function inputReset(input) {
     input.value = '';
 }
 
-function itemExists(list, text) {
-    let listItems = Array.from(list.childNodes);
-    
-    let arrayResult = listItems.filter((item) => {        
+function itemExists(lista, texto) {
+    let listaItens = Array.from(lista.childNodes);
+
+    let resultadoArray = listaItens.filter((item) => {
         return item.firstChild.nextSibling.textContent === text;
-    });    
+    });
+
     return arrayResult.length;
 }
 
-function addTask() {
-    let input = document.getElementById('desc');
-    let text = input.value.trim();
-    let todoTasks = getTodoTasks();
-    
-    if (text === '') {    
-        alert('Forneça uma descrição');
-        return;
-    }
-
-    if (itemExists(todoTasks, text)) {
-        alert('Item já existe');
-        return;
-    }
-
-    // add o item na lista
-    todoTasks.appendChild(createListItem(text));   
-    inputReset(input);
-    updateStatus(todoTasks, getDoneTasks());
+function getTarefas() {
+    return document.getElementById('ulTarefas');
 }

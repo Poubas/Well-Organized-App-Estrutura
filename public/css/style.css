@@ -1,1 +1,65 @@
-/* CSS here */
+#navBar {
+    display: flex;
+    width: 100%; /* Full width */
+    height: 100px;
+    font-family: Montserrat, sans-serif;
+    font-size: 24px;
+    margin: auto;
+}
+
+.navbar a {
+    float: left;
+    display: flex;
+    color: #f2f2f2;
+    text-align: center;
+  }
+
+#menu {
+    display: none;
+    display: flex;
+}
+
+#radioCor {
+    padding: 10px;
+}
+
+.textoDescricao {
+    padding: 10px;
+}
+
+.btnCor {
+    height: 20px;
+    width: 20px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#btnAzul {
+    background-color: #daf5fa;
+} 
+
+#btnVerde {
+    background-color: #d1fecb;
+}
+
+#btnRosa {
+    background-color: #f6d0f6;
+}
+
+#btnRoxo {
+    background-color: #dcd0f3;
+}
+
+#btnAmarelo  {
+    background-color: #fcfccb;
+}
+
+#btnLaranja {
+    background-color: #fbd4b4;
+}
+
+#btnBranco {
+    background-color: #ffff;
+}
+
