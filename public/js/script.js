@@ -1,38 +1,38 @@
 $(document).ready(loadTasksFromLocalStorage);
-$('#btnAdd').on('click', addTask);
+$('#btnAdicionar').on('click', addTask);
 
 function addTask() {
-    let form= $('#formMenu').serializeArray();
+    const todoTasks = getTodoTasks();
+    const desc = $('#inputDescricao').val().trim();
+    const color = $('input[name="cor"]:checked').val();
 
-    let desc = $('#inputDescricao').val();
-    let color = $('input[name="cor"]:checked').val();
-
-    //n funfa agui
-    if (desc === '') {    
+    if (!desc) {
         alert('Forneça uma descrição');
         return;
     }
 
-    if (itemExists(todoTasks, desc)) {
-        alert('Item já existe');
+    if (isTaskDuplicate(desc)) {
+        alert('Task already exists');
         return;
     }
 
-    if (cor === '') {    
+    if (!color) {
         console.log('Escolha uma cor');
         return;
     }
 
-    // add o item na lista
-    let x = createListItem(desc, color);
-    console.log(x);
+    const listItem = createListItem(desc, color);
+    console.log(listItem);
+    $('#todo-task').append(listItem);
 
-    $('#tasksList').append(x);   
-
-    let tasks = getTasksFromLocalStorage();
-    tasks.push({'desc': desc, 'concluida': false, 'color': color});
+    const tasks = getTasksFromLocalStorage();
+    tasks.push({ desc, concluida: false, color });
     setTasksToLocalStorage(tasks);
     updateStatus(todoTasks, getDoneTasks());
+}
+
+function isTaskDuplicate(desc) {
+    return $('#todo-task').children().filter((index, item) => item.children[1].innerText === desc).length > 0;
 }
 
 function getTasksFromLocalStorage() {
@@ -40,43 +40,40 @@ function getTasksFromLocalStorage() {
 }
 
 function setTasksToLocalStorage(tasks) {
-    localStorage.setItem('tasks', JSON.stringify(tasks));    
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function loadTasksFromLocalStorage() {
-    let tasks = getTasksFromLocalStorage();
-    tasks.forEach((task) => {
-        let li = createListItem(task.desc);
+    const tasks = getTasksFromLocalStorage();
+    tasks.forEach(task => {
+        const listItem = createListItem(task.desc, task.color);
         if (task.concluida) {
-            formatDoneTask(li);
-            getDoneTasks().append(li);
+            formatDoneTask(listItem);
+            getDoneTasks().append(listItem);
         } else {
-            getTodoTasks().append(li);
+            getTodoTasks().append(listItem);
         }
     });
     updateStatus(getTodoTasks(), getDoneTasks());
 }
 
 function deleteItem(evt) {
-    let tasks = getTasksFromLocalStorage();
-    // remove da DOM
-    $(evt.target).parent().remove();
+    const tasks = getTasksFromLocalStorage();
+    const listItem = $(evt.target).parent();
+    const desc = listItem.children().eq(1).text();
 
-    // remove do localStorage
-    const desc = $(evt.target).prev().text();
+    listItem.remove();
     const index = getTaskIndex(tasks, desc);
-    tasks.splice(index, 1);    
+    tasks.splice(index, 1);
     setTasksToLocalStorage(tasks);
 
     updateStatus(getTodoTasks(), getDoneTasks());
 }
 
-
 function updateStatus(todoList, doneList) {
-    let totalDone = doneList.children().length;    
-    let totalTasks = todoList.children().length + totalDone;
-    let status = $('#status');
-    status.text(`${totalDone} of ${totalTasks} completed`);
+    const totalDone = doneList.children().length;
+    const totalTasks = todoList.children().length + totalDone;
+    $('#status').text(`${totalDone} of ${totalTasks} completed`);
 }
 
 function formatDoneTask(item) {
@@ -84,79 +81,49 @@ function formatDoneTask(item) {
 }
 
 function getTaskIndex(tasks, desc) {
-    return tasks.findIndex((task) => task.desc === desc);    
+    return tasks.findIndex(task => task.desc === desc);
 }
 
 function doneTask(evt) {
-    let item = $(evt.target).parent();
-    let desc = item.children().eq(1).text();
+    const listItem = $(evt.target).parent();
+    const desc = listItem.children().eq(1).text();
 
-    // atualiza css de tarefa concluída
-    formatDoneTask(item);
+    formatDoneTask(listItem);
+    getDoneTasks().append(listItem);
 
-    getDoneTasks().append(item);
-
-    let tasks = getTasksFromLocalStorage();
-
-    let index = getTaskIndex(tasks, desc);
+    const tasks = getTasksFromLocalStorage();
+    const index = getTaskIndex(tasks, desc);
     tasks[index].concluida = true;
-
     setTasksToLocalStorage(tasks);
 
     updateStatus(getTodoTasks(), getDoneTasks());
 }
 
 function getTodoTasks() {
-    return $('#todo-tasks');
+    return $('#todo-task');
 }
 
 function getDoneTasks() {
     return $('#done-tasks');
 }
 
-function createListItem(desc, color) {
-    let $li = $('<li></li>').addClass('liCard');
+function createListItem(description, color) {
+    const listItem = $('<li></li>').addClass('liCard');
+    const header = $('<div></div>').addClass('headerCardNC').css('backgroundColor', '#ffa4a3');
+    const body = $('<div></div>').addClass('bodyCardNC').css('backgroundColor', color);
+    const descriptionParagraph = $('<p></p>').text(description);
+    const notCompletedText = $('<p></p>').text('Não concluida').css({ padding: '10px', color: '#e42c28' });
+    const checkbox = $('<input type="checkbox">').css('padding', '10px').on('click', () => changeState(listItem));
 
-    let $header = $('<div></div>').addClass('headerCardNC').css('backgroundColor', '#ffa4a3');
-    let $body = $('<div></div>').addClass('bodyCardNC').css('backgroundColor', color);
+    header.append(checkbox, notCompletedText);
+    body.append(descriptionParagraph);
+    listItem.append(header, body);
 
-    let $desc = $('<p></p>').text(desc);
-
-    let $textoNaoFinalizado = $('<p></p>')
-        .text('Não concluida')
-        .css({
-            padding: '10px',
-            color: '#e42c28'
-        });
-
-    let $check = $('<input type="checkbox">').css('padding', '10px').on('click', function () {
-        changeState($li);
-    });
-
-    $header.append($check);
-    $header.append($textoNaoFinalizado);
-
-    $body.append($desc);
-
-    $li.append($header);
-    $li.append($body);
-
-    return $li;
+    return listItem;
 }
 
 function changeState(card) {
-
+    // Function implementation here
 }
 
-function inputReset(input) {
-    input.value = '';
-}
 
-function itemExists(list, text) {
-    let listItems = Array.from(list.children());
-    
-    let arrayResult = listItems.filter((item) => {        
-        return item.children().eq(1).text() === text;
-    });    
-    return arrayResult.length;
-}
