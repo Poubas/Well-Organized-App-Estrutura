@@ -23,9 +23,10 @@ function addTask() {
 
     const listItem = createListItem(desc, color);
     console.log(listItem);
-    $('#todo-task').append(listItem);
+    $('#todo-tasks').append(listItem);
 
     const tasks = getTasksFromLocalStorage();
+    console.log(tasks)
     tasks.push({ desc, concluida: false, color });
     setTasksToLocalStorage(tasks);
     updateStatus(todoTasks, getDoneTasks());
@@ -109,8 +110,8 @@ function getDoneTasks() {
 
 function createListItem(description, color) {
     const listItem = $('<li></li>').addClass('liCard');
-    const header = $('<div></div>').addClass('headerCardNC').css('backgroundColor', '#ffa4a3');
-    const body = $('<div></div>').addClass('bodyCardNC').css('backgroundColor', color);
+    const header = $('<div></div>').addClass('headerCard').css('backgroundColor', '#ffa4a3');
+    const body = $('<div></div>').addClass('bodyCard').css('backgroundColor', color);
     const descriptionParagraph = $('<p></p>').text(description);
     const notCompletedText = $('<p></p>').text('Não concluida').css({ padding: '10px', color: '#e42c28' });
     const checkbox = $('<input type="checkbox">').css('padding', '10px').on('click', () => changeState(listItem));
@@ -123,7 +124,6 @@ function createListItem(description, color) {
 }
 
 function changeState(card) {
-    // Function implementation here
 }
 
 
