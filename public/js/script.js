@@ -1,27 +1,36 @@
 $(document).ready(loadTasksFromLocalStorage);
-$('#btn-add').on('click', addTask);
+$('#btnAdd').on('click', addTask);
 
 function addTask() {
-    let input = $('#desc');
-    let text = input.val().trim();
-    let todoTasks = getTodoTasks();
-    
-    if (text === '') {    
+    let form= $('#formMenu').serializeArray();
+
+    let desc = $('#inputDescricao').val();
+    let color = $('input[name="cor"]:checked').val();
+
+    //n funfa agui
+    if (desc === '') {    
         alert('Forneça uma descrição');
         return;
     }
 
-    if (itemExists(todoTasks, text)) {
+    if (itemExists(todoTasks, desc)) {
         alert('Item já existe');
         return;
     }
 
+    if (cor === '') {    
+        console.log('Escolha uma cor');
+        return;
+    }
+
     // add o item na lista
-    todoTasks.append(createListItem(text));   
-    inputReset(input);
+    let x = createListItem(desc, color);
+    console.log(x);
+
+    $('#tasksList').append(x);   
 
     let tasks = getTasksFromLocalStorage();
-    tasks.push({'desc': text, 'concluida': false});
+    tasks.push({'desc': desc, 'concluida': false, 'color': color});
     setTasksToLocalStorage(tasks);
     updateStatus(todoTasks, getDoneTasks());
 }
@@ -105,23 +114,38 @@ function getDoneTasks() {
     return $('#done-tasks');
 }
 
-function createListItem(text) {
-    // criar o item da lista
-    let li = $('<li></li>');
-    let textItem = document.createTextNode(text);    
-    
-    // criação do checkbox
-    let check = $('<input type="checkbox">');
-    check.on('click', doneTask);
+function createListItem(desc, color) {
+    let $li = $('<li></li>').addClass('liCard');
 
-    // criação do botão de exclusão
-    let btn = $('<button>x</button>');
-    btn.on('click', deleteItem);    
+    let $header = $('<div></div>').addClass('headerCardNC').css('backgroundColor', '#ffa4a3');
+    let $body = $('<div></div>').addClass('bodyCardNC').css('backgroundColor', color);
 
-    btn.append(textBtn);
-    li.append(check, textItem, btn);
+    let $desc = $('<p></p>').text(desc);
 
-    return li;    
+    let $textoNaoFinalizado = $('<p></p>')
+        .text('Não concluida')
+        .css({
+            padding: '10px',
+            color: '#e42c28'
+        });
+
+    let $check = $('<input type="checkbox">').css('padding', '10px').on('click', function () {
+        changeState($li);
+    });
+
+    $header.append($check);
+    $header.append($textoNaoFinalizado);
+
+    $body.append($desc);
+
+    $li.append($header);
+    $li.append($body);
+
+    return $li;
+}
+
+function changeState(card) {
+
 }
 
 function inputReset(input) {

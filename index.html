@@ -17,36 +17,37 @@
         <a href="#Arquivadas">Arquivadas</a>
     </header>
 
-    <main>
+    <main id="main">
 
         <div id="divAddBtn" hidden>
             <button onclick="abrirMenu(this)" class="botaoAdicionarTarefa">Adicionar Tarefa</button>
             <ul id="tarefas"></ul>
         </div>
 
-         <form action="">
+         <form id="formMenu">
 
             <label for="inputDescrição">Descrição</label>
-            <input type="text" id="inputDescrição">
+            <input type="text" id="inputDescricao" name="descricao">
 
-            <input type="radio" name="cor" class="radioCor" id="radioAzul" value="azul">
-            <input type="radio" name="cor" class="radioCor" id="radioVerde" value="verde">
-            <input type="radio" name="cor" class="radioCor" id="radioRosa" value="rosa">
-            <input type="radio" name="cor" class="radioCor" id="radioRoxo" value="roxo">
-            <input type="radio" name="cor" class="radioCor" id="radioAmarelo" value="amarelo">
-            <input type="radio" name="cor" class="radioCor" id="radioLaranja" value="laranja">
-            <input type="radio" name="cor" class="radioCor" id="radioBranco" value="branco">
+            <input type="radio" name="cor" class="radioCor" id="radioAzul" value="#daf5fa">
+            <input type="radio" name="cor" class="radioCor" id="radioVerde" value="#d1fecb">
+            <input type="radio" name="cor" class="radioCor" id="radioRosa" value="#f6d0f6">
+            <input type="radio" name="cor" class="radioCor" id="radioRoxo" value="#dcd0f3">
+            <input type="radio" name="cor" class="radioCor" id="radioAmarelo" value="#fcfccb">
+            <input type="radio" name="cor" class="radioCor" id="radioLaranja" value="#fbd4b4">
+            <input type="radio" name="cor" class="radioCor" id="radioBranco" value="#ffff">
 
-            <button type="submit">Adicionar</button>
+            <button type="submit" id="btnAdd">Adicionar</button>
          </form>
 
         <div id="tasks">
             <ul id="tasksList"></ul>
         </div>
     </main>
-    <script src="./public/js/script.js"></script>
+    
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="./public/js/script.js"></script>
 
 </body>
 

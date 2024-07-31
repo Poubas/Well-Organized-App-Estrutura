@@ -19,6 +19,10 @@
     display: flex;
 }
 
+#tasksList {
+    display: flex;
+}
+
 #radioCor {
     padding: 10px;
 }
@@ -33,33 +37,5 @@
     margin: 5px;
     border: none;
     cursor: pointer;
-}
-
-#btnAzul {
-    background-color: #daf5fa;
-} 
-
-#btnVerde {
-    background-color: #d1fecb;
-}
-
-#btnRosa {
-    background-color: #f6d0f6;
-}
-
-#btnRoxo {
-    background-color: #dcd0f3;
-}
-
-#btnAmarelo  {
-    background-color: #fcfccb;
-}
-
-#btnLaranja {
-    background-color: #fbd4b4;
-}
-
-#btnBranco {
-    background-color: #ffff;
 }
 
