@@ -29,12 +29,38 @@
     flex-direction: row;
 }
 
-.headerCard {
+.donetext {
     margin: 0%;
+    text-decoration: line-through;
+    padding: 10px;
+    font-family: 'Open Sans SemiBold';
+    font-size: 20px;
 }
 
-.bodyCard {
+.todoText {
     margin: 0%;
+    text-decoration: none;
+    padding: 10px;
+    font-family: 'Open Sans SemiBold';
+    font-size: 20px;
+}
+
+.doneHeader {
+    margin: 0%;
+    text-decoration: none;
+    background-color:#b8ffa3;
+    font-family: 'Roboto Regular';
+    font-size: 10px;
+    padding: 10px;
+}
+
+.todoHeader {
+    margin: 0%;
+    text-decoration: none;
+    background-color:#ffa4a3;
+    font-family: 'Roboto Regular';
+    font-size: 10px;
+    padding: 10px;
 }
 
 #menu {
