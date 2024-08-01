@@ -44,7 +44,6 @@ function setTasksToLocalStorage(tasks) {
 }
 
 function loadTasksFromLocalStorage() {
-    
     const tasks = getTasksFromLocalStorage();
     tasks.forEach(task => {
         const listItem = createListItem(task.desc, task.color);
@@ -55,7 +54,7 @@ function loadTasksFromLocalStorage() {
         }
 
         if (task.arquivado) {
-            $('archive-tasks').append(listItem);
+            $('#archive-tasks').append(listItem);
         }
     });
 }
@@ -84,23 +83,37 @@ function getTaskIndex(tasks, desc) {
 }
 
 function archiveTask(evt) {
-
-    let tasks = getTasksFromLocalStorage();
-
     const listItem = $(evt.target).parent();
+    $('archive-tasks').append(listItem);
+
+    const tasks = getTasksFromLocalStorage();
     const desc = listItem.children().eq(1).text();
 
-    forEach(tasks, task => {
+    tasks.forEach(task => {
         if (task.desc === desc) {
             task.arquivado = true;
+            taskAtual
         }
     });
 
-    formatArchiveTask(listItem);
-    getArchiveTasks().append(listItem);
-    
     setTasksToLocalStorage(tasks);
+
+    listItem.remove();
 }
+
+    //let tasks = getTasksFromLocalStorage();
+ //const desc = listItem.children().eq(1).text();
+
+    //forEach(tasks, task => {
+    //   if (task.desc === desc) {
+    ///        task.arquivado = true;
+    //    }
+    //});
+
+    //formatArchiveTask(listItem);
+    //getArchiveTasks().append(listItem);
+    
+    //setTasksToLocalStorage(tasks);
 
 function getTodoTasks() {
     return $('#todo-task');
@@ -111,25 +124,112 @@ function getArchiveTasks() {
 }
 
 function createListItem(description, color) {
-    const listItem = $('<li></li>').addClass('liCard');
-    const header = $('<div></div>').addClass('headerCard').css('backgroundColor', '#ffa4a3');
-    const body = $('<div></div>').addClass('bodyCard').css('backgroundColor', color);
-    const descriptionParagraph = $('<p></p>').text(description).css('margin', '0');
-    const deleteButton = $('<button></button>').text('Delete').on('click', deleteItem);
-    const archiveButton = $('<a>').text('').on('click', archiveTask);
-    const notCompletedText = $('<label></label>').text('Não concluida').css({color: '#e42c28' });
-    const checkbox = $('<input type="checkbox">').css('padding', '10px').on('click', () => changeState(listItem));
+    const listItem = $('<li></li>').addClass('liCard').css('backgroundColor', color);
+
+    const header = $('<div></div>').addClass('headerCard').css({
+        backgroundColor: ' #ffa4a3',
+        fontFamily: 'Roboto Regular',
+        fontSize: '10px',
+        padding: '10px'
+    });
+
+    const body = $('<div></div>').addClass('bodyCard');
+    
+    const descriptionParagraph = $('<p></p>').text(description).css({
+        padding: '10px',
+        fontFamily: 'Open Sans SemiBold',
+        fontSize: '20px'
+    });
+
+    switch (color) {
+        case '#daf5fa':
+            descriptionParagraph.css('color', '#19b5dc');
+            break;
+        case '#d1fecb':
+            descriptionParagraph.css('color', '#58a51d');
+            break;
+        case '#f6d0f6':
+            descriptionParagraph.css('color', '#cb65cb');    
+            break;
+        case '#dcd0f3':
+            descriptionParagraph.css('color', '#9763f9');
+            break;
+        case '#fcfccb':
+            descriptionParagraph.css('color', '#8f8f69');
+            break;
+        case '#fbd4b4':
+            descriptionParagraph.css('color', '#ec842e');
+            break;
+        case '#fffff':
+            descriptionParagraph.css('color', '#727272');
+            break;
+        default:
+            break;
+    }
+    
+    const deleteButton = $('<img>').attr('src', 'public/assets/trash-icon.png').on('click', deleteItem);
+    deleteButton.css({
+        cursor: 'pointer',
+        padding: '10px',
+        display: 'none'
+    });
+
+    const notCompletedText = $('<label></label>').text('Não concluida').css({
+        color: '#e42c28',
+        padding: '10px'
+    });
+
+    const archiveButton = $('<img>').attr('src', 'public/assets/archive-icon.png').on('click', function() {
+        archiveTask($(this).parent())
+    });
+    
+    archiveButton.css({
+        cursor: 'pointer',
+        padding: '10px',
+        display: 'none'
+    });
+
+    const checkbox = $('<input type="checkbox">').css('padding', '10px');
+
+    checkbox.on('click', function() {
+        if ($(this).is(':checked')) {
+            
+            notCompletedText.text('Concluída').css('color', '#2b5a07');
+            descriptionParagraph.css('textDecoration', 'line-through');
+            archiveButton.css('display', 'flex')
+            
+            $(this).parent('div').css({
+                backgroundColor: '#b8ff99'
+            });
+
+            $(this).attr('src', 'public/assets/unchecked.png');
+        } else {
+
+            notCompletedText.text('Não concluída').css('color', '#e42c28');
+            descriptionParagraph.css('textDecoration', 'none');
+            archiveButton.css('display', 'none')
+
+            $(this).parent('div').css({
+                backgroundColor: '#ffa4a3'
+            });;
+
+            $(this).siblings('img').attr('src', 'public/assets/unchecked.png');
+        }
+    });
+ 
 
     header.append(checkbox, notCompletedText);
     body.append(descriptionParagraph);
-    body.append(deleteButton);
     body.append(archiveButton);
+    body.append(deleteButton);
     listItem.append(header, body);
 
+    console.log(listItem);
     return listItem;
 }
 
 function changeState(card) {
+
 }
 
 
