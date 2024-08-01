@@ -1,6 +1,7 @@
 #navBar {
     display: flex;
-    width: 100%; /* Full width */
+    width: 100%;
+    /* Full width */
     height: 100px;
     font-family: Montserrat, sans-serif;
     font-size: 24px;
@@ -12,7 +13,30 @@
     display: flex;
     color: #f2f2f2;
     text-align: center;
-  }
+}
+
+.liCard {
+    list-style: none;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.25);
+}
+
+.ulTasks {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.headerCard {
+    margin: 0%;
+}
+
+.bodyCard {
+    margin: 0%;
+}
 
 #menu {
     display: none;
@@ -38,4 +62,3 @@
     border: none;
     cursor: pointer;
 }
-
