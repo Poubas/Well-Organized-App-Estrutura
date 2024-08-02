@@ -1,5 +1,10 @@
 $(document).ready(loadTasksFromLocalStorage);
+$(document).ready(() => $('#taskInput').hide());
 $('#btnAdicionar').on('click', addTask);
+$('#addTaskButton').on('click', () => {
+    $('#taskInput').show();
+    $('#addTaskButton').hide();
+});
 
 function getTasksFromLocalStorage() {
     return JSON.parse(localStorage.getItem('tasks')) || [];
@@ -12,21 +17,17 @@ function setTasksToLocalStorage(tasks) {
 function loadTasksFromLocalStorage() {
     const tasks = getTasksFromLocalStorage();
     tasks.forEach(task => {
-        const listItem = createListItem(task.desc, task.color);
 
-        $('#tasks').append(listItem);
+        const listItem = createListItem(task.desc, task.color, task.isArchived, task.isDone);
 
         if (task.isArchived) {
             $('#archived-tasks').append(listItem);
-            
+        } else {
+            $('#tasks').append(listItem);
         }
     });
 }
 
-
-function getTaskIndex(tasks, desc) {
-    return tasks.findIndex(task => task.desc === desc);
-}
 
 function getTodoTasks() {
     return $('#todo-task');
@@ -37,74 +38,76 @@ function getArchiveTasks() {
 }
 
 function deleteCard() {
-    console.log('deleteCard');
-    $(this).closest('li').remove();
-
-    const desc = $(this).siblings('.descriptionParagraph').text();
+    const desc = $(this).siblings()[0].innerText;
     const tasks = getTasksFromLocalStorage();
 
-    const index = getTaskIndex(tasks, desc);
-
-    if (index !== -1) {
-        tasks.splice(index, 1);
-        setTasksToLocalStorage(tasks);
+    for (task of tasks) {
+        if (task.desc === desc) {
+            const index = tasks.indexOf(task);
+            tasks.splice(index, 1);
+        }
     }
+    
+    setTasksToLocalStorage(tasks);
+
+    $(this).closest('li').remove();
 }
 
 function archiveTask() {
-    console.log('archiveTask');
-    $(this).closest('li').remove(); // Remove the item from the DOM
 
-    const desc = $(this).siblings('.descriptionParagraph').text(); // Get the description of the task
-    const tasks = getTasksFromLocalStorage(); // Get the tasks from local storage
+    const desc = $(this).siblings()[0].innerText;
+    const tasks = getTasksFromLocalStorage();
 
-    const index = getTaskIndex(tasks, desc); // Find the index of the task in the tasks array
-
-    if (index !== -1) {
-        tasks[index].isArchived = true; // Update the 'isArchived' attribute to true
-        setTasksToLocalStorage(tasks); // Update the tasks in local storage
+    for (task of tasks) {
+        if (task.desc === desc) {
+            task.isArchived = true;
+        }
     }
+
+    setTasksToLocalStorage(tasks);
+    $(this).closest('li').remove();
 }
 
 function cardCheckbox() {
     const checkbox = $(this);
     const header = checkbox.parent();
-    const description = header.siblings('.todoText').children('.descriptionParagraph');
+    const description = header.next().children()[0].innerText;
+    const descriptionParagraph = header.next().children().filter('p');
 
     let tasks = getTasksFromLocalStorage();
-    let index = getTaskIndex(tasks, description.text());
 
-    checkbox.toggleClass('checked');
-
-    if (checkbox.hasClass('checked')) {
-        tasks[index].isDone = true;
-        setTasksToLocalStorage(tasks);
-
-        checkbox.empty().append($('<img>').attr('src', './public/assets/checked.png'));
-        header.children('.headerText').text('Concluida').css('color', '#2b5a07');
-        header.css('backgroundColor', '#b8ff99');
-        header.parent().children('.todoText').children('.descriptionParagraph').css('text-decoration', 'line-through');
-        description.next('.archiveButton').css('display', 'block');
-
-    } else {
-        tasks[index].isDone = false;
-        setTasksToLocalStorage(tasks);
-
-        checkbox.empty().append($('<img>').attr('src', './public/assets/unchecked.png'));
-        header.children('.headerText').text('Não Concluida').css('color', '#e42c28');
-        header.css('backgroundColor', '#ffa4a3');
-        header.parent().children('.todoText').children('.descriptionParagraph').css('text-decoration', 'none');
-        description.next('.archiveButton').css('display', 'none');
-
+    for (task of tasks) {
+        if (task.desc === description) {
+            task.isDone = !task.isDone;
+            if (task.isDone) {
+                header.children()[1].innerText = 'Concluida';
+                checkbox.attr('src', './public/assets/checked.png');
+                header.removeClass('todoHeader');
+                header.addClass('doneHeader');
+                header.next().children().filter('#archiveButton').show();
+                descriptionParagraph.removeClass('todoText');
+                descriptionParagraph.addClass('doneText');
+            } else {
+                header.children()[1].innerText = 'Não concluida';
+                checkbox.attr('src', './public/assets/unchecked.png');
+                header.removeClass('doneHeader');
+                header.addClass('todoHeader');
+                header.next().children().filter('#archiveButton').hide();
+                descriptionParagraph.removeClass('doneText');
+                descriptionParagraph.addClass('todoText');
+            }
+        }
     }
+
+    setTasksToLocalStorage(tasks);
 }
 
 function createListItem(description, color, isArchived, isDone) {
     const listItem = $('<li></li>').addClass('liCard').css('backgroundColor', color);
 
-    const header = $('<div></div>').addClass('todoHeader');
+    const header = $('<div id="cardHeader"></div>').addClass('todoHeader');
 
-    const body = $('<div></div>').addClass('todoText');
+    const body = $('<div id="cardBody"></div>').addClass('todoText');
 
     let colortext;
     switch (color) {
@@ -134,49 +137,38 @@ function createListItem(description, color, isArchived, isDone) {
             break;
     }
 
-    const descriptionParagraph = $('<p class="descriptionParagraph"></p>').text(description).css({
-        backgroundColor: color,
-        color: colortext,
-    });
+    let checkbox;
+    let headerText;
 
-    const deleteButton = $('<button></button>').append($('<img>').attr('src', './public/assets/trash-icon.png')).on('click', deleteCard).css({
-        argin: '0',
-        padding: '0',
-        border: 'none',
-        background: 'none',
-        boxshadow: 'none',
-        outline: 'none',
-        cursor: 'pointer',
-        display: 'none',
-    });
+    const descriptionParagraph = $('<p></p>').text(description).css('color', colortext).addClass('open-sans-semi-bold');
+    const archiveButton = $('<img id="archiveButton" src="./public/assets/archive-icon.png">').on('click', archiveTask).hide();
+    const deleteButton = $('<img id="deleteButton" src="./public/assets/trash-icon.png">').on('click', deleteCard).hide();
 
-    const checkbox = $('<button></button>').append($('<img>').attr('src', './public/assets/unchecked.png')).on('click', cardCheckbox).css({
-        margin: '0',
-        padding: '0',
-        border: 'none',
-        background: 'none',
-        boxshadow: 'none',
-        outline: 'none',
-        cursor: 'pointer',
-    });
+    if (isDone) {
+        checkbox = $('<img src="./public/assets/checked.png">').on('click', cardCheckbox);
+        headerText = $('<label></label>').text('Concluida');
+        header.removeClass('todoHeader');
+        header.addClass('doneHeader');
+        descriptionParagraph.removeClass('todoText');
+        descriptionParagraph.addClass('doneText');
+        archiveButton.show();
 
+    } else {
+        checkbox = $('<img src="./public/assets/unchecked.png">').on('click', cardCheckbox);
+        headerText = $('<label></label>').text('Não concluida');
+        header.removeClass('doneHeader');
+        header.addClass('todoHeader');
+        descriptionParagraph.removeClass('doneText');
+        descriptionParagraph.addClass('todoText');
+        archiveButton.hide();
+    }
 
-    const headerText = $('<label class="headerText"></label>').text('Não concluida').css({
-        color: '#e42c28',
-        padding: '10px'
-    });
+    if (isArchived) {
+        archiveButton.hide();
+        deleteButton.show();
+        checkbox.off('click');
+    }
 
-    const archiveButton = $('<img>').append($('<img>'))
-        .attr('src', './public/assets/archive-icon.png')
-        .on('click', archiveTask)
-        .addClass('archiveButton')
-        .css('display', 'none');
-
-
-    archiveButton.css({
-        cursor: 'pointer',
-        padding: '10px',
-    });
 
     header.append(checkbox, headerText);
     body.append(descriptionParagraph);
@@ -184,7 +176,6 @@ function createListItem(description, color, isArchived, isDone) {
     body.append(deleteButton);
     listItem.append(header, body);
 
-    console.log(listItem);
     return listItem;
 }
 

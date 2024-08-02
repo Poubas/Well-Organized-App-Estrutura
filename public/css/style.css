@@ -1,10 +1,10 @@
-#navBar {
-    display: flex;
-    width: 100%;
-    height: 100px;
-    font-family: Montserrat, sans-serif;
-    font-size: 24px;
-    margin: auto;
+.open-sans-semi-bold {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
 }
 
 .navbar a {
@@ -15,6 +15,7 @@
 }
 
 .liCard {
+    display: block;
     list-style: none;
     align-items: center;
     width: 200px;
@@ -29,11 +30,10 @@
     flex-direction: row;
 }
 
-.donetext {
+.doneText {
     margin: 0%;
     text-decoration: line-through;
     padding: 10px;
-    font-family: 'Open Sans SemiBold';
     font-size: 20px;
 }
 
@@ -41,53 +41,111 @@
     margin: 0%;
     text-decoration: none;
     padding: 10px;
-    font-family: 'Open Sans SemiBold';
     font-size: 20px;
 }
 
 .doneHeader {
     margin: 0%;
     text-decoration: none;
-    background-color:#b8ffa3;
-    font-family: 'Roboto Regular';
+    background-color: #b8ffa3;
+    padding: 10px;
+}
+
+.doneHeader label {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     font-size: 10px;
+    color: #2b5a07;
     padding: 10px;
 }
 
 .todoHeader {
-    margin: 0%;
-    text-decoration: none;
-    background-color:#ffa4a3;
-    font-family: 'Roboto Regular';
+    background-color: #ffa4a3;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     font-size: 10px;
     padding: 10px;
 }
 
-#menu {
-    display: none;
-    display: flex;
-}
-
-#tasksList {
-    display: flex;
-}
-
-#radioCor {
+.todoHeader label {
+    color: #e42c28;
     padding: 10px;
 }
 
-.textoDescricao {
-    padding: 10px;
-}
-
-.btnCor {
+.radioCor {
+    display: inline-block;
     height: 20px;
     width: 20px;
     margin: 5px;
-    border: none;
+    border: 1px solid black;
     cursor: pointer;
+    appearance: none;
+    border-radius: 0;
 }
 
-.checked {
-    
+.radioCor:checked {
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+#Azul {
+    background-color: #daf5fa;
+}
+
+#Verde {
+    background-color: #d1fecb;
+}
+
+#Rosa {
+    background-color: #f6d0f6;
+}
+
+#Roxo {
+    background-color: #dcd0f3;
+}
+
+#Amarelo {
+    background-color: #fcfccb;
+}
+
+#Laranja {
+    background-color: #fbd4b4;
+}
+
+#Branco {
+    background-color: #ffff;
+}
+
+#navBar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    font-family: Montserrat, sans-serif;
+    font-size: 24px;
+    margin: auto;
+}
+
+#cardHeader{
+    display: flex;
+    padding: 0%;
+    padding-left: 5px;
+    align-items: center;
+}
+
+#cardHeader label{
+    margin: 0%;
+    padding: 5px;
+}
+
+#cardBody{
+    display: block;
+    padding: 0%;
+    padding-left: 5px;
+    align-items: center;
+}
+
+#cardBody img{
+    align-self: bottom end;
 }
