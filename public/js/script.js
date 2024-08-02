@@ -36,16 +36,65 @@ function getArchiveTasks() {
 }
 
 function deleteCard() {
- console.log('deleteCard');
+    console.log('deleteCard');
+    $(this).closest('li').remove(); 
+
+    const desc = $(this).siblings('.descriptionParagraph').text(); 
+    const tasks = getTasksFromLocalStorage(); 
+
+    const index = getTaskIndex(tasks, desc);
+
+    if (index !== -1) {
+        tasks.splice(index, 1); 
+        setTasksToLocalStorage(tasks); 
+    }
 }
 
 function archiveTask() {
-console.log('archiveTask');
+    console.log('archiveTask');
+    $(this).closest('li').remove(); // Remove the item from the DOM
+
+    const desc = $(this).siblings('.descriptionParagraph').text(); // Get the description of the task
+    const tasks = getTasksFromLocalStorage(); // Get the tasks from local storage
+
+    const index = getTaskIndex(tasks, desc); // Find the index of the task in the tasks array
+
+    if (index !== -1) {
+        tasks[index].isArchived = true; // Update the 'isArchived' attribute to true
+        setTasksToLocalStorage(tasks); // Update the tasks in local storage
+    }
 }
 
 function cardCheckbox() {
-    let x = $(this).parent();
-    console.log(x.children()[1]);
+    const checkbox = $(this);
+    const header = checkbox.parent();
+    const description = header.siblings('.todoText').children('.descriptionParagraph');
+    
+    let tasks = getTasksFromLocalStorage();
+    let index = getTaskIndex(tasks, description.text());
+
+    checkbox.toggleClass('checked');
+
+    if (checkbox.hasClass('checked')) {
+        tasks[index].isDone = true;
+        setTasksToLocalStorage(tasks);
+
+        checkbox.empty().append($('<img>').attr('src', './public/assets/checked.png'));
+        header.children('.headerText').text('Concluida').css('color', '#2b5a07');
+        header.css('backgroundColor', '#b8ff99');
+        header.parent().children('.todoText').children('.descriptionParagraph').css('text-decoration', 'line-through');
+        description.nextSibliing('<img>').css('display', 'block');
+
+    } else {
+        tasks[index].isDone = false; // Update the 'isDone' attribute to true
+        setTasksToLocalStorage(tasks); // Update the tasks in local storage
+
+        checkbox.empty().append($('<img>').attr('src', './public/assets/unchecked.png'));
+        header.children('.headerText').text('Não Concluida').css('color', '#e42c28');
+        header.css('backgroundColor', '#ffa4a3');
+        header.parent().children('.todoText').children('.descriptionParagraph').css('text-decoration', 'none');
+
+    }
 }
 
 function createListItem(description, color, isArchived, isDone) {
@@ -55,7 +104,7 @@ function createListItem(description, color, isArchived, isDone) {
 
     const body = $('<div></div>').addClass('todoText');
 
-    const descriptionParagraph = $('<p></p>').text(description).css('background-color', color);
+    const descriptionParagraph = $('<p class="descriptionParagraph"></p>').text(description).css('background-color', color);
 
     const deleteButton = $('<button></button>').on('click', deleteCard).text('X').css({
         style: 'none',
@@ -64,7 +113,15 @@ function createListItem(description, color, isArchived, isDone) {
         cursor: 'pointer',
     });
 
-    const checkbox = $('<button>check</button>').on('click', cardCheckbox);
+    const checkbox = $('<button></button>').append($('<img>').attr('src', './public/assets/unchecked.png')).on('click', cardCheckbox).css({
+        margin: '0',
+        padding: '0',
+        border: 'none',
+        background: 'none',
+        boxshadow: 'none',
+        outline: 'none',
+        cursor: 'pointer',
+    });
 
 
 const headerText = $('<label class="headerText"></label>').text('Não concluida').css({
@@ -72,7 +129,8 @@ const headerText = $('<label class="headerText"></label>').text('Não concluida'
         padding: '10px'
     });
 
-    const archiveButton = $('<img>').attr('src', './public/assets/archive-icon.png').on('click', archiveTask);
+    const archiveButton = $('<img>').append($('<img>')).attr('src', './public/assets/archive-icon.png').on('click', archiveTask).css('display' , 'none');  
+
 
     archiveButton.css({
         cursor: 'pointer',
