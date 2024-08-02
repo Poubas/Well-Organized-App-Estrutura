@@ -16,11 +16,12 @@ function loadTasksFromLocalStorage() {
 
         $('#tasks').append(listItem);
 
-        if (task.arquivado) {
+        if (task.isArchived) {
             $('#archived-tasks').append(listItem);
         }
     });
 }
+
 
 function getTaskIndex(tasks, desc) {
     return tasks.findIndex(task => task.desc === desc);
@@ -34,53 +35,17 @@ function getArchiveTasks() {
     return $('#archive-tasks');
 }
 
-function deleteCard(evt) {
-    const tasks = getTasksFromLocalStorage();
-    const listItem = $(evt.target).parent();
-    const desc = listItem.children().eq(1).text();
-
-    listItem.remove();
-    const index = getTaskIndex(tasks, desc);
-    tasks.splice(index, 1);
-    setTasksToLocalStorage(tasks);
-
-    // updateStatus(getTodoTasks(), getArchiveTasks());
+function deleteCard() {
+ console.log('deleteCard');
 }
 
-function archiveTask(evt) {
-    const listItem = $(evt.target).parent();
-    
-    const tasks = getTasksFromLocalStorage();
-    const desc = listItem.children().eq(1).text();
-    
-    tasks.forEach(task => {
-        if (task.desc === desc) {
-            task.arquivado = true;
-            taskAtual
-        }
-    });
-
-    setTasksToLocalStorage(tasks);
-
-    $('archived-tasks').append(listItem);
-
-    listItem.remove();
+function archiveTask() {
+console.log('archiveTask');
 }
 
-function cardCheckbox(evt) {
-    const listItem = $(evt.target).parent();
-    const desc = listItem.children().eq(1).text();
-    const tasks = getTasksFromLocalStorage();
-
-    tasks.forEach(task => {
-        if (task.desc === desc) {
-            task.isDone = !task.isDone;
-        }
-    });
-
-    setTasksToLocalStorage(tasks);
-
-    // updateStatus(getTodoTasks(), getArchiveTasks());
+function cardCheckbox() {
+    let x = $(this).parent();
+    console.log(x.children()[1]);
 }
 
 function createListItem(description, color, isArchived, isDone) {
@@ -92,21 +57,26 @@ function createListItem(description, color, isArchived, isDone) {
 
     const descriptionParagraph = $('<p></p>').text(description).css('background-color', color);
 
-    const checkbox = $('<img id = "cardCheckbox" src="public/assets/unchecked.png">').css('padding', '10px').on('click', cardCheckbox($(this)));
+    const deleteButton = $('<button></button>').on('click', deleteCard).text('X').css({
+        style: 'none',
+        backgroundColor: 'red',
+        border: 'black',
+        cursor: 'pointer',
+    });
 
-    const deleteButton = $('<img src="public/assets/trash-icon.png">').on('click', deleteCard($(this))).hide();
+    const checkbox = $('<button>check</button>').on('click', cardCheckbox);
 
-    const headerText = $('<label for="cardCheckbox"></label>').text('Não concluida').css({
+
+const headerText = $('<label class="headerText"></label>').text('Não concluida').css({
         color: '#e42c28',
         padding: '10px'
     });
 
-    const archiveButton = $('<img>').attr('src', 'public/assets/archive-icon.png').on('click', archiveTask($(this)));
+    const archiveButton = $('<img>').attr('src', './public/assets/archive-icon.png').on('click', archiveTask);
 
     archiveButton.css({
         cursor: 'pointer',
         padding: '10px',
-        display: 'none'
     });
 
     header.append(checkbox, headerText);
