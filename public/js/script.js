@@ -99,13 +99,13 @@ function addTask() {
         return;
     }
 
-    if ($('#tasks').children().filter((index, item) => item.children[1].innerText === desc).length > 0) {
+    if ($('#tasks').children().filter((index, item) => item.children[1].children[0].innerText === desc).length > 0) {
         alert('Task already exists');
         return;
     }
 
     if (!color) {
-        console.log('Escolha uma cor');
+        alert('Escolha uma cor');
         return;
     }
 
