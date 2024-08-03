@@ -4,6 +4,7 @@ $('#btnAdicionar').on('click', addTask);
 $('#addTaskButton').on('click', () => {
     $('#taskInput').show();
     $('#addTaskButton').hide();
+    $('#addTaskButtonDiv').find('label').hide();
 });
 
 function getTasksFromLocalStorage() {

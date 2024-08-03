@@ -15,22 +15,28 @@
 </head>
 
 <body>
-    <header id="navBar">
+    <header class="navBar montserrat-regular">
         <a href="index.html"><img src="public/assets/well-organized-logo.png" alt=""></a>
-        <a href="index.html" class="headerLink">A fazer</a>
-        <p> | </p>
-        <a href="Arquivadas.html" class="headerLinks">Arquivadas</a>
+        <div class="navLinks">
+            <a href="index.html" class="headerLink">A fazer</a>
+            <p> | </p>
+            <a href="Arquivadas.html" class="headerLinks">Arquivadas</a>
+        </div>
     </header>
 
     <main id="main">
 
-        <button id="addTaskButton" class="btnAddTask">Adicionar Tarefa</button>
+        <div id="addTaskButtonDiv">
+            <button id="addTaskButton" class="btnAddTask"><img src="public/assets/task-add-icon.png" alt=""></button>
+            <label for="addTaskButton" >Adicionar tarefa</label>
+        </div>
 
         <div id="taskInput">
 
-            <label for="inputDescrição">Descrição</label>
+            <label for="inputDescrição" class="montserrat-regular">Descrição</label>
             <input type="text" id="inputDescricao" name="descricao">
 
+            <label for="" id="labelCor" class="montserrat-regular">cor</label>
             <input type="radio" name="cor" class="radioCor" id="Azul" value="#daf5fa">
             <input type="radio" name="cor" class="radioCor" id="Verde" value="#d1fecb">
             <input type="radio" name="cor" class="radioCor" id="Rosa" value="#f6d0f6">

@@ -7,11 +7,33 @@
         "wdth" 100;
 }
 
-.navbar a {
-    float: left;
+.montserrat-regular {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.navBar {
     display: flex;
-    color: #f2f2f2;
-    text-align: center;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100px;
+    padding-left: 50px;
+    font-size: 24px;
+}
+
+.navLinks {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 250px;
+}
+
+.navLinks a {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
 }
 
 .liCard {
@@ -93,6 +115,50 @@
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
 }
 
+#tarefaArquivada{
+    padding-left: 50px;
+}
+
+#taskInput {
+    height: 100px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#taskInput label {
+    font-size: 25px;
+    color: #000000;
+}
+#inputDescricao {
+    width: 490px;
+    height: 40px;
+    border-radius: 7px;
+    border-color: #50b6cf;
+    border-style: solid;
+    margin: 20px 10px 20px 10px;
+
+}
+
+#btnAdicionar{
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 25px;
+    color: #ffffff;
+    background-color: #50b6cf;
+    border-radius: 7px;
+    border-style: none;
+    margin-left: 20px;
+}
+
+#labelCor {
+
+    margin: 20px 10px 20px 10px;
+}
+
 #Azul {
     background-color: #daf5fa;
 }
@@ -121,36 +187,50 @@
     background-color: #ffff;
 }
 
-#navBar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100px;
-    font-family: Montserrat, sans-serif;
-    font-size: 24px;
-    margin: auto;
-}
 
-#cardHeader{
+#cardHeader {
     display: flex;
     padding: 0%;
     padding-left: 5px;
     align-items: center;
 }
 
-#cardHeader label{
+#cardHeader label {
     margin: 0%;
     padding: 5px;
 }
 
-#archiveButton{
+#archiveButton {
     height: min-content;
     width: min-content;
 }
 
-#cardButtons{
+#cardButtons {
     display: flex;
     padding: 5px;
     justify-content: end;
     align-content: center;
+}
+
+#addTaskButton {
+    appearance: unset;
+    border: none;
+    background: none;
+    padding-left: 50px;
+    margin: 0;
+    cursor: pointer;
+}
+
+#addTaskButtonDiv {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    color: #2195F2;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#addTaskButtonDiv label {
+    padding: 20px;
 }

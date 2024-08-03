@@ -6,23 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="public\assets" type="image/x-icon">
     <link rel="stylesheet" href="public\css\style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
     <title>TodoApp</title>
 </head>
 
 <body>
-    <header id="navBar" style="align-content:normal ;">
-        <img src="public/assets/well-organized-logo.png" alt="">
-        <a href="index.html">A fazer</a>
-        <p> | </p>
-        <a href="Arquivadas.html">Arquivadas</a>
+    <header class="navBar montserrat-regular">
+        <a href="index.html"><img src="public/assets/well-organized-logo.png" alt=""></a>
+        <div class="navLinks">
+            <a href="index.html" class="headerLink">A fazer</a>
+            <p> | </p>
+            <a href="Arquivadas.html" class="headerLinks">Arquivadas</a>
+        </div>
     </header>
 
     <main id="main">
         <div id="done">
-            <h3>Arquivadas</h3>
+            <h2 id="tarefaArquivada" class="montserrat-regular">Tarefas arquivadas</h2>
             <ul id="archived-tasks" class="ulTasks"></ul>
         </div>
-    </main>
+    </main>`
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
