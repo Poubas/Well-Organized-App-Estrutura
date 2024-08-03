@@ -15,9 +15,9 @@
 }
 
 .liCard {
-    display: block;
+    display: flex;
+    flex-direction: column;
     list-style: none;
-    align-items: center;
     width: 200px;
     height: 200px;
     margin: 10px;
@@ -38,10 +38,14 @@
 }
 
 .todoText {
+    flex-grow: 1;
     margin: 0%;
     text-decoration: none;
     padding: 10px;
     font-size: 20px;
+    display: flex;
+    flex-direction: column;
+
 }
 
 .doneHeader {
@@ -139,13 +143,14 @@
     padding: 5px;
 }
 
-#cardBody{
-    display: block;
-    padding: 0%;
-    padding-left: 5px;
-    align-items: center;
+#archiveButton{
+    height: min-content;
+    width: min-content;
 }
 
-#cardBody img{
-    align-self: bottom end;
+#cardButtons{
+    display: flex;
+    padding: 5px;
+    justify-content: end;
+    align-content: center;
 }

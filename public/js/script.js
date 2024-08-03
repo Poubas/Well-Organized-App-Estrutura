@@ -38,7 +38,8 @@ function getArchiveTasks() {
 }
 
 function deleteCard() {
-    const desc = $(this).siblings()[0].innerText;
+    const desc = $(this).parent().siblings()[1].children[0].innerText;
+    console.log(desc);
     const tasks = getTasksFromLocalStorage();
 
     for (task of tasks) {
@@ -55,7 +56,8 @@ function deleteCard() {
 
 function archiveTask() {
 
-    const desc = $(this).siblings()[0].innerText;
+    const desc = $(this).parent().siblings()[1].children[0].innerText;
+    console.log(desc);
     const tasks = getTasksFromLocalStorage();
 
     for (task of tasks) {
@@ -84,7 +86,7 @@ function cardCheckbox() {
                 checkbox.attr('src', './public/assets/checked.png');
                 header.removeClass('todoHeader');
                 header.addClass('doneHeader');
-                header.next().children().filter('#archiveButton').show();
+                header.next().next().children().filter('#archiveButton').show();
                 descriptionParagraph.removeClass('todoText');
                 descriptionParagraph.addClass('doneText');
             } else {
@@ -92,7 +94,7 @@ function cardCheckbox() {
                 checkbox.attr('src', './public/assets/unchecked.png');
                 header.removeClass('doneHeader');
                 header.addClass('todoHeader');
-                header.next().children().filter('#archiveButton').hide();
+                header.next().next().children().filter('#archiveButton').hide();
                 descriptionParagraph.removeClass('doneText');
                 descriptionParagraph.addClass('todoText');
             }
@@ -108,6 +110,8 @@ function createListItem(description, color, isArchived, isDone) {
     const header = $('<div id="cardHeader"></div>').addClass('todoHeader');
 
     const body = $('<div id="cardBody"></div>').addClass('todoText');
+
+    const cardButtons = $('<div id="cardButtons"></div>');
 
     let colortext;
     switch (color) {
@@ -171,10 +175,9 @@ function createListItem(description, color, isArchived, isDone) {
 
 
     header.append(checkbox, headerText);
+    cardButtons.append(archiveButton, deleteButton);
     body.append(descriptionParagraph);
-    body.append(archiveButton);
-    body.append(deleteButton);
-    listItem.append(header, body);
+    listItem.append(header, body, cardButtons);
 
     return listItem;
 }
